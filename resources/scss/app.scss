@@ -1,0 +1,37 @@
+@use '@fortawesome/fontawesome-free/css/all.min.css';
+@use 'bulma/sass' with (
+    $primary: hsl(0, 70%, 40%),
+    $text: hsl(278, 10%, 10%), // violet foncé
+    // $text: hsl(220, 15%, 10%),
+    $info: hsl(194, 49%, 68%),
+    $spacing-values: (
+        "0": 0,
+        "1": 0.5rem,
+        "2": 1rem,
+        "3": 1.5rem,
+        "4": 2rem,
+        "5": 2.5rem,
+        "6": 3rem,
+        "auto": auto,
+    )
+);
+
+// Importer les thèmes
+@use "themes/dark";
+@use "themes/light";
+
+// Importation des composants
+@use 'utilities';
+@use 'elements';
+@use 'grid';
+@use 'form';
+@use 'components';
+
+// Définition des styles pour chaque thème
+[data-theme="dark"] {
+    @include dark.dark-mode;
+}
+
+[data-theme="light"] {
+    @include light.light-mode;
+}

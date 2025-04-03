@@ -1,0 +1,14 @@
+@use 'bulma/sass/utilities/mixins';
+@use 'bulma/sass/utilities/initial-variables' as iv;
+
+.section {
+    @include mixins.until(iv.$desktop) {
+        &:first-of-type {
+            --bulma-section-padding: 3rem 3rem 1rem 3rem;
+        }
+
+        &:not(:first-of-type) {
+            --bulma-section-padding: 1rem 3rem;
+        }
+    }
+}

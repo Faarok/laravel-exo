@@ -1,0 +1,14 @@
+// @use 'bulma/sass/form/input-textarea';
+
+form {
+    .input,
+    .textarea {
+        &::placeholder {
+
+        }
+
+        &.stylized {
+
+        }
+    }
+}

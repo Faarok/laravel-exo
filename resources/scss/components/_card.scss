@@ -1,0 +1,48 @@
+@use "bulma/sass/components/card";
+
+.card {
+    height: 100%;
+    --bulma-card-content-padding: 1rem 1.5rem;
+    transition: transform 0.2s;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        transform: scale(1.02);
+
+        &:after {
+            width: 100%;
+        }
+    }
+
+    &:after {
+        content: '';
+        height: 3px;
+        width: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: #fff;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .card-image {
+        overflow: hidden;
+        border-start-start-radius: var(--bulma-card-radius);
+        border-start-end-radius: var(--bulma-card-radius);
+
+        img {
+            border-start-start-radius: unset;
+            border-start-end-radius: unset;
+        }
+    }
+
+    .card-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}

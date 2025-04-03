@@ -1,0 +1,53 @@
+@use 'bulma/sass/grid/columns';
+@use 'bulma/sass/utilities/initial-variables' as iv;
+@use 'bulma/sass/utilities/mixins';
+
+$mobile: 576px !default;
+
+.columns {
+    flex-wrap: wrap;
+    display: flex;
+
+    .contains-image {
+        .column {
+            padding: 0 0.75rem;
+        }
+    }
+
+    &.is-tablet-vertical {
+        @include mixins.until(iv.$desktop) {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .column {
+        flex: 0 0 auto;
+        width: 100%;
+
+        @for $i from 12 through 1 {
+            $col-size: calc(100% / 12 * $i);
+
+            &.col-#{$i} {
+                width: $col-size;
+            }
+        }
+
+        @each $breakpoint, $size in (
+            "widescreen": iv.$fullhd,
+            "desktop": iv.$widescreen,
+            "tablet": iv.$desktop,
+            "mobile": iv.$tablet
+        ) {
+            @for $i from 12 through 1 {
+                $col-size: calc(100% / 12 * $i);
+
+                @include mixins.until($size) {
+                    &.col-#{$breakpoint}-#{$i} {
+                        width: $col-size;
+                    }
+                }
+            }
+        }
+    }
+}

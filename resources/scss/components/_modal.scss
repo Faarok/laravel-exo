@@ -1,0 +1,50 @@
+@use 'bulma/sass/utilities/initial-variables' as iv;
+@use 'bulma/sass/utilities/mixins';
+
+.modal-close {
+    z-index: 2;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+
+    &.is-fullscreen {
+        width: 100%;
+        padding: 0 5rem;
+
+        @include mixins.until(iv.$tablet) {
+            max-height: calc(100vh - 2.5rem);
+        }
+
+        @include mixins.until(iv.$desktop) {
+            padding: 0 2.5rem;
+
+        }
+    }
+
+    .modal-content-header {
+        margin-bottom: 2rem;
+    }
+
+    @include mixins.until(iv.$tablet) {
+        .modal-mobile-gallery {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            .cell {
+                flex: 0 0 auto;
+                width: 40%;
+            }
+
+            .img {
+                height: 100%;
+            }
+        }
+    }
+}

@@ -1,0 +1,10 @@
+.table-rounded {
+    border-radius: 10px;
+    overflow: hidden;
+
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+        overflow: hidden;
+    }
+}

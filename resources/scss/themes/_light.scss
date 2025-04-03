@@ -1,0 +1,22 @@
+@use "base" as *;
+
+$body-bgc-light: var(--bulma-text-95);
+$body-color-light: var(--bulma-text-05);
+
+$navbar-bgc-light: var(--bulma-text-85);
+$navbar-menu-bgc-light: var(--bulma-text-90);
+$navbar-burger-bgc-light: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 0.2);
+$navbar-item-bgc-hover-light: var(--bulma-text-100);
+
+$hero-bgc-light: var(--bulma-warning-80);
+
+$card-shadow-light: var(--bulma-card-shadow);
+$card-bgc-light: var(--bulma-text-90);
+
+@mixin light-mode {
+    @include apply-body($body-bgc-light, $body-color-light);
+    @include apply-navbar($navbar-bgc-light, $navbar-menu-bgc-light, $navbar-burger-bgc-light, $body-color-light, $navbar-item-bgc-hover-light);
+    @include apply-switch($body-color-light);
+    @include apply-hero($hero-bgc-light);
+    @include apply-card($card-shadow-light, $card-bgc-light);
+}

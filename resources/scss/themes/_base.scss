@@ -1,0 +1,143 @@
+@use 'bulma/sass/utilities/css-variables' as *;
+@use 'bulma/sass/utilities/initial-variables' as iv;
+@use 'bulma/sass/utilities/mixins';
+@use '../utilities/global' as g;
+
+// Fonction pour appliquer le mode
+@mixin apply-body($background-color, $color) {
+    background-color: $background-color;
+    color: $color;
+}
+
+@mixin apply-content($content-title-color) {
+    h1, h2, h3, h4, h5, h6, .title {
+        color: $content-title-color;
+    }
+}
+
+@mixin apply-navbar($bgc, $bgc-menu, $bgc-burger-hover, $item-color, $item-hover-color) {
+    .navbar {
+        background-color: $bgc;
+
+        .navbar-item {
+            color: $item-color;
+        }
+
+        a.navbar-item {
+            &:hover {
+                background-color: $item-hover-color;
+            }
+
+            &:focus {
+                background-color: $item-hover-color;
+            }
+        }
+
+        .navbar-burger {
+            color: $item-color;
+
+            &:hover {
+                background-color: $bgc-burger-hover;
+            }
+
+            span {
+                color: $item-color;
+            }
+        }
+
+        @include mixins.until(iv.$desktop) {
+            .navbar-menu {
+                background-color: $bgc-menu;
+            }
+        }
+    }
+}
+
+@mixin apply-switch($color) {
+    .switch-light {
+        color: $color;
+    }
+}
+
+@mixin apply-hero($background-color) {
+    .hero {
+        background-color: $background-color;
+    }
+}
+
+@mixin apply-card($box-shadow, $background-color) {
+    .card {
+        box-shadow: $box-shadow;
+        background-color: $background-color;
+    }
+}
+
+@mixin apply-box($box-shadow, $box-bgc) {
+    .box {
+        box-shadow: $box-shadow;
+        background-color: $box-bgc;
+    }
+}
+
+@mixin apply-form($form-label-color, $form-placeholder) {
+    form {
+        .label {
+            color: $form-label-color;
+        }
+
+        .input,
+        .textarea {
+            &::placeholder {
+                color: $form-placeholder;
+            }
+        }
+    }
+}
+
+@mixin apply-modal($bgc, $bgc-plain) {
+    .modal[data-modal=gallery] {
+        .modal-background {
+            background-color: $bgc;
+
+            &.is-plain {
+                background-color: $bgc-plain;
+            }
+        }
+    }
+}
+
+@mixin apply-table($bgc, $bgc-lighter, $border-cell-color) {
+    .table {
+        background-color: $bgc;
+
+        tr {
+            td {
+                border-color: $border-cell-color;
+            }
+        }
+
+        &.is-striped {
+            tr {
+                &:not(.is-selected) {
+                    &:nth-child(even) {
+                        background-color: $bgc-lighter;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin apply-image($filter-color, $color) {
+    .image {
+        &:after {
+            background-color: $filter-color;
+        }
+    }
+
+    .image-overlay {
+        span {
+            color: $color;
+        }
+    }
+}

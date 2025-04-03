@@ -1,0 +1,52 @@
+@use "base" as *;
+
+$body-bgc: var(--bulma-text-10);
+$body-color: var(--bulma-text-95);
+
+$hr-bgc: var(--bulma-text-30);
+
+$content-title-color: var(--bulma-text-95);
+
+$navbar-bgc: var(--bulma-primary-15);
+$navbar-menu-bgc: var(--bulma-text-10);
+$navbar-burger-bgc: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 0.2);
+$navbar-item-bgc-hover: var(--bulma-text-10);
+
+$hero-bgc: var(--bulma-text-05);
+
+$card-shadow: unset;
+$card-bgc: var(--bulma-text-20);
+
+$box-shadow: unset;
+$box-bgc: var(--bulma-text-20);
+
+$form-label-color: var(--bulma-text-95);
+$form-placeholder: var(--bulma-text-65);
+
+$modal-bgc: var(--bulma-modal-background-background-color);
+$modal-bgc-plain: $body-bgc;
+
+$table-bgc: var(--bulma-text-10);
+$table-bgc-lighter: var(--bulma-text-15);
+$table-cell-border-color: var(--bulma-text-20);
+
+$image-filter: hsl(0deg, 0%, 0%, 10%);
+$image-overlay-color: var(--bulma-primary);
+
+@mixin dark-mode {
+    @include apply-body($body-bgc, $body-color);
+    @include apply-content($content-title-color);
+    @include apply-navbar($navbar-bgc, $navbar-menu-bgc, $navbar-burger-bgc, $body-color, $navbar-item-bgc-hover);
+    @include apply-switch($body-color);
+    @include apply-hero($hero-bgc);
+    @include apply-card($card-shadow, $card-bgc);
+    @include apply-box($box-shadow, $box-bgc);
+    @include apply-form($form-label-color, $form-placeholder);
+    @include apply-modal($modal-bgc, $modal-bgc-plain);
+    @include apply-table($table-bgc, $table-bgc-lighter, $table-cell-border-color);
+    @include apply-image($image-filter, $image-overlay-color);
+
+    hr {
+        background-color: $hr-bgc;
+    }
+}

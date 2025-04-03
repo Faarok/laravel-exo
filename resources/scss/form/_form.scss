@@ -1,0 +1,10 @@
+// @use 'bulma/sass/form';
+
+form {
+    .input,
+    .textarea {
+        &::placeholder {
+            font-size: 15px;
+        }
+    }
+}

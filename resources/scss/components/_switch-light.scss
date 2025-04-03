@@ -1,0 +1,15 @@
+$switch-light-color: transparent;
+
+.switch-light {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: $switch-light-color;
+
+    i.fas {
+        font-size: 18px;
+        line-height: 18px;
+        width: 18px;
+        height: 18px;
+    }
+}

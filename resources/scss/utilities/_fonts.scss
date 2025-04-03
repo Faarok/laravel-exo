@@ -1,0 +1,22 @@
+$fonts: (
+    "Regular": normal,
+    "Italic": italic,
+    "Medium": normal,
+    "MediumItalic": italic,
+    "SemiBold": normal,
+    "SemiBoldItalic": italic,
+    "Bold": normal,
+    "BoldItalic": italic,
+    "ExtraBold": normal,
+    "ExtraBoldItalic": italic
+);
+
+@each $weight, $style in $fonts {
+    @font-face {
+        font-family: "EB Garamond";
+        src: url("../fonts/EBGaramond-#{$weight}.woff2") format("woff2");
+        font-weight: $weight;
+        font-style: $style;
+        font-display: swap;
+    }
+}

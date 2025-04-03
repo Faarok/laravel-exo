@@ -1,0 +1,92 @@
+@use 'bulma/sass/utilities/initial-variables' as iv;
+@use 'bulma/sass/utilities/derived-variables' as dv;
+@use 'bulma/sass/utilities/mixins';
+@use 'bulma/sass/utilities/css-variables' as *;
+@use 'sass:color';
+
+$mobile: 576px !default;
+
+html {
+    overflow-y: auto !important;
+}
+
+*[data-bg] {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@for $i from 10 through 100 {
+    @if $i % 10 == 0 {
+        .w-#{$i} {
+            width: $i * 1%;
+        }
+    }
+}
+
+.border {
+    border: 1px solid iv.$grey-lighter;
+
+    &-bottom {
+        border-bottom: 1px solid iv.$grey-lighter;
+    }
+
+    &-top {
+        border-top: 1px solid iv.$grey-lighter;
+    }
+
+    &-right {
+        border-right: 1px solid iv.$grey-lighter;
+    }
+
+    &-left {
+        border-left: 1px solid iv.$grey-lighter;
+    }
+}
+
+@each $color, $value in (
+    'text': dv.$text,
+    'link': dv.$link,
+    'primary': dv.$primary,
+    'info': dv.$info,
+    'success': dv.$success,
+    'warning': dv.$warning,
+    'danger': dv.$danger
+) {
+    .border-color-#{$color} {
+        border-color: $value;
+    }
+
+    @for $i from 0 through 100 {
+        @if $i % 5 == 0 or $i == 0 {
+            $formatted-lightness: if($i < 10, "0#{$i}", "#{$i}");
+            $new-color: hsl(color.channel($value, "hue", $space: hsl), color.channel($value, "saturation", $space: hsl), $i * 1%);
+
+            .border-color-#{$color}-#{$formatted-lightness} {
+                border-color: $new-color;
+            }
+        }
+    }
+}
+
+@for $i from 1 through 5 {
+    $border-width: 1px * $i;
+
+    .border-width-#{$i} {
+        border-width: $border-width;
+    }
+}
+
+@each $breakpoint, $size in (
+    "fullhd": iv.$fullhd,
+    "widescreen": iv.$widescreen,
+    "desktop": iv.$desktop,
+    "tablet": iv.$tablet,
+    "mobile": $mobile
+) {
+    @include mixins.until($size - 1) {
+        .#{$breakpoint}-unborder {
+            border: unset;
+        }
+    }
+}
