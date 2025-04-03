@@ -8,15 +8,15 @@ export default defineConfig({
         strictPort: true,
         hmr: {
             host: 'localhost', // Ou l'IP de votre machine hôte si nécessaire
-        },
+        }
     },
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
+                'resources/scss/app.scss',
                 'resources/js/app.js'
             ],
-            refresh: true,
+            refresh: true
         }),
     ]
 });

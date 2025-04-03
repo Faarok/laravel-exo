@@ -41,9 +41,18 @@ class ImageController extends Controller
 
     public function destroy(Image $image)
     {
-        if(!$image->eraseImage())
+        // dd($image);
+        if(!self::eraseImage($image))
             return response()->json(['message' => 'Image introuvable', 404]);
 
         return response()->json(['message' => 'Image supprimée avec succès', 200]);
+    }
+
+    private function eraseImage(Image $image):bool
+    {
+        if(!Storage::disk('public')->delete($image->path))
+            return false;
+
+        return $image->delete();
     }
 }

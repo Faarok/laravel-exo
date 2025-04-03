@@ -29,18 +29,4 @@ class PropertyContactRequest extends FormRequest
             'content' => ['required', 'string', 'min:16']
         ];
     }
-
-    public function messages():array
-    {
-        return [
-            'firstname.required' => 'Champ "Prénom" requis',
-            'name.required' => 'Champ "Nom" requis',
-            'phone.required' => 'Champ "Téléphone" requis',
-            'mail.required' => 'Champ "Email" requis',
-            'content.required' => 'Champ "Message" requis',
-            'phone.regex' => 'Format invalide',
-            'mail.regex' => 'Format invalide',
-            'content.min' => '16 caractères minimum'
-        ];
-    }
 }

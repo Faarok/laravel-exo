@@ -4,35 +4,50 @@
 
 @section('content')
 
-    <x-alert type="success" class="fw-bold" id="test">
-        Des informations
-    </x-alert>
+    <x-alerts type="success" :message="session('success')"/>
+    <x-alerts type="danger" :message="$errors->any() ? implode('<br>', $errors->all()) : null"/>
 
-    <div class="bg-light w-100">
-        <div class="container py-5 mb-5">
-            <h1 class="text-center">Agence lorem ipsum</h1>
+    <section class="hero is-medium">
+        <div class="hero-body">
+            <h1 class="title mb-2">Agence lorem ipsum</h1>
 
-            <p class="text-center">
+            <p class="subtitle">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam, libero sit sapiente praesentium animi consequuntur neque voluptate exercitationem tempora deserunt rerum maiores enim quaerat laboriosam sunt hic laudantium impedit beatae.
             </p>
         </div>
-    </div>
+    </section>
 
-    <div class="container">
-        <h1>Les derniers biens</h1>
+    <div class="block m-0">
+        <h1 class="title">Nos derniers biens</h1>
 
         @if(!$properties->isEmpty())
-            <div class="row">
-                @foreach ($properties as $property)
-                    <div class="col-sm-12 col-md-6 col-xl-3">
+            <div class="columns">
+                @foreach($properties as $property)
+                    <div class="column col-3 col-desktop-4 col-tablet-6 col-mobile-12">
                         <div class="card">
-                            <img src="{{ $property->first_image }}" class="card-img-top" alt="">
-
-                            <div class="card-body">
-                                <a href="{{ route('property.show', [ $property->id ]) }}"><h5 class="card-title">{{ $property->title }}</h5></a>
-                                <p class="card-text">{{ $property->surface }}m&sup2; - {{ $property->town }} ({{ $property->zip }})</p>
-                                <span class="h3">{{ $property->price }}€</span>
+                            <div class="card-image">
+                                <figure class="image is-4by3">
+                                    <img src="{{ $property->first_image }}" alt="">
+                                </figure>
                             </div>
+
+                            <div class="card-content">
+                                <p class="title is-5">{{ $property->title }}</p>
+
+                                <p class="content">
+                                    {{ $property->surface }}m&sup2; - {{ $property->town }} ({{ $property->zip }})
+
+                                    <br>
+
+                                    @foreach ($property->options as $option)
+                                        {{ $option->name }} {{ $option->name !== $property->options->last()->name ? '|' : '' }}
+                                    @endforeach
+                                </p>
+
+                                <p class="subtitle is-4 has-text-weight-bold">{{ $property->formatted_price }}€</p>
+                            </div>
+
+                            <a class="card-link" href="{{ route('property.show', [ $property->id ]) }}"></a>
                         </div>
                     </div>
                 @endforeach

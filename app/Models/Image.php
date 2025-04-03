@@ -16,13 +16,4 @@ class Image extends Model
     {
         return $this->belongsTo(Property::class);
     }
-
-    protected function eraseImage():bool
-    {
-        if(!Storage::disk('public')->delete($this->path))
-            return false;
-
-        $this->delete();
-        return true;
-    }
 }

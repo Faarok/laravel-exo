@@ -3,50 +3,76 @@
 @section('title', 'Nos biens')
 
 @section('content')
-    <div class="bg-light w-100 py-3 mb-3">
-        <div class="container">
-            <form action="{{ route('property.index') }}" class="d-flex justify-content-between gap-3" method="get">
-                <div class="from-group flex-fill">
-                    <input class="form-control" type="number" step="1" name="surfaceMin" id="surfaceMin" placeholder="Surface minimum">
-                </div>
+    <section class="section">
+        <div class="columns is-vcentered">
+            <div class="column col-6">
+                <p class="title">Nos biens</p>
 
-                <div class="from-group flex-fill">
-                    <input class="form-control" type="number" step="1" name="roomMin" id="roomMin" placeholder="Nombre de pièces min">
-                </div>
+                <p><span class="has-text-weight-bold">{{ $properties->total() }}</span> résultats correspondent à votre recherche.</p>
+            </div>
 
-                <div class="from-group flex-fill">
-                    <input class="form-control" type="number" step="1" name="priceMax" id="priceMax" placeholder="Budget max">
-                </div>
+            <div class="column col-6">
+                <form action="{{ route('property.index') }}" method="get">
+                    @csrf
 
-                <div class="from-group flex-fill">
-                    <input class="form-control" type="text" name="keyword" id="keyword" placeholder="Mot clef">
-                </div>
+                    <div class="columns">
+                        <x-form.input class="control column col-6" name="surfaceMin" placeholder="Surface minimum"></x-form.input>
+                        <x-form.input class="control column col-6" name="roomMin" placeholder="Nombre de pièce min"></x-form.input>
+                    </div>
 
-                <button class="btn btn-primary">Rechercher</button>
-            </form>
+                    <div class="columns">
+                        <x-form.input class="control column col-6" name="priceMax" placeholder="Budget max"></x-form.input>
+                        <x-form.input class="control column col-6" name="keyword" placeholder="Mot clef minimum"></x-form.input>
+                    </div>
+
+                    <div class="control is-pulled-right">
+                        <x-form.button
+                            type="submit"
+                            color="primary"
+                        >Rechercher</x-form.button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    </section>
 
-    @if (!$properties->isEmpty())
-        <div class="container">
-            @foreach ($properties->chunk(4) as $sectionProperties)
-                <div class="row mb-3">
-                    @foreach ($sectionProperties as $property)
-                        <div class="col-sm-12 col-md-6 col-xl-3 mb-4">
-                            <div class="card h-100">
-                                <img src="{{ !$property->images->isEmpty() ? Storage::url($property->images[0]->path) : Storage::url('default.jpg') }}" class="card-img-top" alt="">
-                                <div class="card-body">
-                                    <a href="{{ route('property.show', [ $property->id ]) }}"><h5 class="card-title">{{ $property->title }}</h5></a>
-                                    <p class="card-text">{{ $property->surface }}m&sup2; - {{ $property->town }} ({{ $property->zip }})</p>
-                                    <span class="h3">{{ $property->formatted_price }}€</span>
-                                </div>
-                            </div>
+    <section class="section">
+        <div class="columns">
+            @foreach($properties as $property)
+                <div class="column col-3 col-desktop-4 col-tablet-6 col-mobile-12">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-4by3">
+                                <img src="{{ $property->first_image }}" alt="">
+                            </figure>
                         </div>
-                    @endforeach
+
+                        <div class="card-content">
+                            <p class="title is-5">{{ $property->title }}</p>
+
+                            <p class="content">
+                                {{ $property->surface }}m&sup2; - {{ $property->room }} pièce{{ $property->room > 1 ? 's' : '' }} - {{ $property->town }} ({{ $property->zip }})
+                            </p>
+
+                            <p class="content">
+                                @foreach ($property->options as $option)
+                                    {{ $option->name }} {{ $option->name !== $property->options->last()->name ? '|' : '' }}
+                                @endforeach
+                            </p>
+
+                            <p class="content">
+                                {{ $property->description }}
+                            </p>
+
+                            <span class="subtitle is-4 has-text-weight-bold">{{ $property->formatted_price }}€</span>
+                        </div>
+
+                        <a href="{{ route('property.show', [ $property->id]) }}" class="card-link"></a>
+                    </div>
                 </div>
             @endforeach
-
-            {{ $properties->links() }}
         </div>
-    @endif
+
+        {{ $properties->links() }}
+    </section>
 @endsection

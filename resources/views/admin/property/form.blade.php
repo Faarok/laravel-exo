@@ -6,100 +6,70 @@
         <div class="col-9">
             <div class="row mb-2">
                 <div class="form-group col-6">
-                    @include('shared.input', ['type' => 'text', 'label' => 'Titre', 'name' => 'title', 'value' => $property->title])
+                    <x-form.input :type="__('text')" :label="__('Titre')" :name="__('title')" :value="$property->title"></x-input>
                 </div>
 
                 <div class="form-group col-3">
-                    @include('shared.input', ['type' => 'number', 'label' => 'Surface', 'name' => 'surface', 'value' => $property->surface])
+                    <x-form.input :type="__('number')" :label="__('Surface')" :name="__('surface')" :value="$property->surface"></x-input>
                 </div>
 
                 <div class="form-group col-3">
-                    @include('shared.input', ['type' => 'number', 'label' => 'Prix', 'name' => 'price', 'value' => $property->price])
+                    <x-form.input :type="__('number')" :label="__('Prix')" :name="__('price')" :value="$property->price"></x-input>
                 </div>
             </div>
 
             <div class="form-group mb-2">
-                @include('shared.input', ['type' => 'textarea', 'label' => 'Description', 'name' => 'description', 'value' => $property->description])
+                <x-form.textarea :label="__('Description')" :name="__('description')" :value="$property->description"></x-textarea>
             </div>
 
             <div class="row mb-2">
                 <div class="form-group col-4">
-                    @include('shared.input', ['type' => 'number', 'label' => 'Pièces', 'name' => 'room', 'value' => $property->room])
+                    <x-form.input :type="__('number')" :label="__('Pièces')" :name="__('room')" :value="$property->room"></x-input>
                 </div>
 
                 <div class="form-group col-4">
-                    @include('shared.input', ['type' => 'number', 'label' => 'Chambres', 'name' => 'bedroom', 'value' => $property->bedroom])
+                    <x-form.input :type="__('number')" :label="__('Chambres')" :name="__('bedroom')" :value="$property->bedroom"></x-input>
                 </div>
 
                 <div class="form-group col-4">
-                    @include('shared.input', ['type' => 'number', 'label' => 'Étage', 'name' => 'floor', 'value' => $property->floor])
+                    <x-form.input :type="__('number')" :label="__('Étage')" :name="__('floor')" :value="$property->floor"></x-input>
                 </div>
             </div>
 
             <div class="row mb-2">
                 <div class="form-group col-4">
-                    @include('shared.input', ['type' => 'text', 'label' => 'Adresse', 'name' => 'address', 'value' => $property->address])
+                    <x-form.input :type="__('text')" :label="__('Adresse')" :name="__('address')" :value="$property->address"></x-input>
                 </div>
 
                 <div class="form-group col-4">
-                    @include('shared.input', ['type' => 'text', 'label' => 'Ville', 'name' => 'town', 'value' => $property->town])
+                    <x-form.input :type="__('text')" :label="__('Ville')" :name="__('town')" :value="$property->town"></x-input>
                 </div>
 
                 <div class="form-group col-4">
-                    @include('shared.input', ['type' => 'number', 'label' => 'Code postal', 'name' => 'zip', 'value' => $property->zip])
+                    <x-form.input :type="__('number')" :label="__('Code postal')" :name="__('zip')" :value="$property->zip"></x-input>
                 </div>
             </div>
 
-            @include('shared.select', ['class' => 'mb-3', 'label' => 'Options', 'name' => 'options', 'options' => $options->pluck('id', 'name'), 'values' => $property->options()->pluck('id'), 'attr' => 'multiple'])
+            <div class="form-group mb-3">
+                <x-form.tom-select
+                    label="Options"
+                    name="options"
+                    :options="$options->pluck('id', 'name')"
+                    :values="$property->options()->pluck('id')"
+                    placeholder="Sélection des options"
+                    multiple
+                    aria-autocomplete="off"
+                ></x-tom-select>
+            </div>
 
-            @include('shared.checkbox', ['class' => 'mb-2', 'label' => 'Vendu', 'name' => 'sell', 'value' => $property->sell])
-
-            <button class="btn btn-primary">{{ $property->id ? 'Modifier' : 'Sauvegarder' }}</button>
+            <x-form.switch class="mb-2" label="Vendu ?" name="sell" :value="$property->sell"></x-switch>
+            <x-form.button type="submit" color="primary">{{ $property->id ? 'Modifier' : 'Sauvegarder' }}</x-button>
         </div>
 
         <div class="col-3">
-            @if(!$property->images->isEmpty())
-                <div x-data="{
-                    message: null,
-                    deleteImage: async function(url) {
-                        if(confirm('Êtes-vous sûr de vouloir supprimer cette image ?'))
-                        {
-                            const response = await fetch(url, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    'Accept': 'application/json',
-                                }
-                            });
+            <x-form.input type="file" label="Images" name="images" attr="multiple" class="mb-2"></x-input>
 
-                            if(response.ok)
-                            {
-                                const result = await response.json();
-                                this.message = result.message;
-                                setTimeout(() => {
-                                    this.message = null;
-                                    location.reload();
-                                }, 3000);
-                            }
-                        }
-                    }
-                }">
-                    <template x-if="message">
-                        <div class="alert alert-info" x-text="message"></div>
-                    </template>
-
-                    @foreach ($property->images as $image)
-                        <div class="py-3">
-                            <button type="button" class="nav-link" @click="deleteImage('{{ route('admin.image.destroy', [ 'image' => $image->id ]) }}')">
-                                <img class="w-100" src="{{ Storage::url($image->path) }}" alt="">
-                                <div class="bg-danger text-light text-center p-2">Supprimer</div>
-                            </button>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-
-            @include('shared.input', ['type' => 'file', 'label' => 'Images', 'name' => 'images', 'attr' => 'multiple'])
+            <x-form.deletable-images :images="$property->images"></x-form-deletable-images>
         </div>
     </div>
 </form>

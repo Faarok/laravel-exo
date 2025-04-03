@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use App\Listeners\ContactEventSubscriber;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +24,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Paginator::useBootstrapFive();
+        if(app()->environment('production'))
+            Vite::useBuildDirectory(public_path('build'));
+
+        Paginator::defaultView('components.pagination');
+        Paginator::defaultSimpleView('components.pagination');
+
+        // Event::subscribe(ContactEventSubscriber::class);
     }
 }

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Property extends Model
 {
@@ -54,6 +55,14 @@ class Property extends Model
     public function getFormattedPriceAttribute():string
     {
         return number_format($this->price, 0, '', ' ');
+    }
+
+    public function getMainImagesAttribute():Collection|string
+    {
+        if($this->images->isEmpty())
+            $this->first_image;
+
+        return $this->images()->orderBy('created_at', 'DESC')->limit(6)->get();
     }
 
     // Scopes
